@@ -9,5 +9,6 @@ typedef struct _VERTEX
 }VERTEX, * LPVERTEX;
 
 void scaleVertex(LPVERTEX _v, float _scalar);
+void addVertices(LPVERTEX _l, LPVERTEX _r);
 
 #endif

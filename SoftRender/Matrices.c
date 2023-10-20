@@ -12,7 +12,7 @@ MATRIX createMatrix(int _rows, int _columns)
 	MATRIX m;
 	if (_columns < 1 || _rows < 1)
 	{
-		m.cols == m.rows == 0;
+		m.cols = m.rows = 0;
 		m.mat = (float**)0;
 		return(m);
 	}

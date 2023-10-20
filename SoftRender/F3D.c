@@ -7,6 +7,20 @@ MATRIX view;
 MATRIX projection;
 int mode;
 
+VERTEX matrixVertexMultiply(LPMATRIX _m, LPVERTEX _v)
+{
+	VERTEX a;
+	a.color = _v->color;
+	a.s = _v->s;
+	a.t = _v->t;
+	a.x = _m->mat[0][0] * _v->x + _m->mat[0][1] * _v->y + _m->mat[0][2] * _v->z + _m->mat[0][3] * _v->w;
+	a.y = _m->mat[1][0] * _v->x + _m->mat[1][1] * _v->y + _m->mat[1][2] * _v->z + _m->mat[1][3] * _v->w;
+	a.z = _m->mat[2][0] * _v->x + _m->mat[2][1] * _v->y + _m->mat[2][2] * _v->z + _m->mat[2][3] * _v->w;
+	a.w = _m->mat[3][0] * _v->x + _m->mat[3][1] * _v->y + _m->mat[3][2] * _v->z + _m->mat[3][3] * _v->w;
+
+	return(a);
+}
+
 LPFTARGET initializeF3D(int _xres, int _yres, int _depth, unsigned char* _buffer, float _fov)
 {
 	LPFTARGET b = malloc(sizeof(FTARGET));
@@ -62,8 +76,8 @@ void draw(char* _buffer, int _length, LPFTARGET _back)
 		VERTEX cam = matrixVertexMultiply(&view, &xyz[a]);
 		VERTEX clip = matrixVertexMultiply(&projection, &cam);
 		scaleVertex(&clip, 1 / clip.w);
-		x[a] = clip.x;//(int)((clip.x + 1.0f) + 0.5f * 640);
-		y[a] = clip.y;//(int)((1.0f - clip.y) + 0.5f * 480);
+		x[a] = clip.x;
+		y[a] = clip.y;
 	}
 	*(unsigned int*)(&_back->buffer[y[0] * _back->width * _back->depth + x[0] * _back->depth]) = 0xff0000ff;
 	*(unsigned int*)(&_back->buffer[y[1] * _back->width * _back->depth + x[1] * _back->depth]) = 0xffff0000;
@@ -80,4 +94,5 @@ int destroyF3D()
 	{
 		destroyMatrix(projection);
 	}
+	return(0);
 }
