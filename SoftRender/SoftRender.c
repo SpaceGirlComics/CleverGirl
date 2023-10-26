@@ -1,8 +1,10 @@
 #include <Windows.h>
 #include "f3d.h"
 
-#define CLIENTWIDTH			1367
+#define CLIENTWIDTH			1024
 #define CLIENTHEIGHT		768
+#define CLIENTTOP			0
+#define CLIENTLEFT			0
 #define COLORDEPTH			4
 #define PI					3.14f
 
@@ -90,8 +92,8 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _prevInstance, LPSTR lpCmdLin
 	RECT r;
 	r.right = CLIENTWIDTH;
 	r.bottom = CLIENTHEIGHT;
-	r.left = 0;
-	r.top = 0;
+	r.left = CLIENTLEFT;
+	r.top = CLIENTTOP;
 	AdjustWindowRectEx(&r, WS_OVERLAPPEDWINDOW, FALSE, (DWORD)NULL);
 	if (r.left < 0)
 	{
@@ -106,7 +108,7 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _prevInstance, LPSTR lpCmdLin
 
 	if (RegisterClassExW(&wc))
 	{
-		hWnd = CreateWindowEx((DWORD)NULL, L"3dTestWnd", L"Window", WS_OVERLAPPEDWINDOW, 10, 10, r.right, r.bottom, NULL, NULL, _hInstance, NULL);
+		hWnd = CreateWindowEx((DWORD)NULL, L"3dTestWnd", L"Window", WS_OVERLAPPEDWINDOW, r.left, r.top, r.right, r.bottom, NULL, NULL, _hInstance, NULL);
 	}
 	if (!hWnd)
 	{
@@ -118,7 +120,7 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _prevInstance, LPSTR lpCmdLin
 	}
 
 	//LPFTARGET back = initializeF3D(r.right, r.bottom, 4, backBuffer, 45);
-	LPFTARGET back = initializeF3D(1367, 768, 4, backBuffer, 45);
+	LPFTARGET back = initializeF3D(CLIENTWIDTH, CLIENTHEIGHT, 4, backBuffer, 45);
 
 	while (!done)
 	{
